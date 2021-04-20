@@ -395,9 +395,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tadashi/amqp-transport@workspace:.":
+"@tadashi/hex-id@npm:2.0.0":
+  version: 2.0.0
+  resolution: "@tadashi/hex-id@npm:2.0.0"
+  checksum: fd1af2fb2bb1864f7d1196ffdb6788c118411bd4b47239ed6d4539983ffba9de8c7f84cc14573a1557a7b6492b9a36d8df7bbb5c3ef4d8545032e6b06d11b8a4
+  languageName: node
+  linkType: hard
+
+"@tadashi/winston-amqp-transport@workspace:.":
   version: 0.0.0-use.local
-  resolution: "@tadashi/amqp-transport@workspace:."
+  resolution: "@tadashi/winston-amqp-transport@workspace:."
   dependencies:
     "@tadashi/hex-id": 2.0.0
     amqplib: 0.7.1
@@ -410,13 +417,6 @@ __metadata:
     winston: ">= 3.3.3 < 4"
   languageName: unknown
   linkType: soft
-
-"@tadashi/hex-id@npm:2.0.0":
-  version: 2.0.0
-  resolution: "@tadashi/hex-id@npm:2.0.0"
-  checksum: fd1af2fb2bb1864f7d1196ffdb6788c118411bd4b47239ed6d4539983ffba9de8c7f84cc14573a1557a7b6492b9a36d8df7bbb5c3ef4d8545032e6b06d11b8a4
-  languageName: node
-  linkType: hard
 
 "@tootallnate/once@npm:1":
   version: 1.1.2
