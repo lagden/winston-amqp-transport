@@ -1,0 +1,49 @@
+name: Node.js CI
+
+on:
+  push:
+    branches: [main]
+
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [14.x]
+
+    services:
+      rabbitmq:
+        image: rabbitmq:3.8-alpine
+          - 5672:5672
+        env:
+          RABBITMQ_ERLANG_COOKIE: secret
+          RABBITMQ_DEFAULT_USER: test
+          RABBITMQ_DEFAULT_PASS: test
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - run: yarn set version berry
+      - run: >
+          echo 'nodeLinker: node-modules' >> .yarnrc.yml
+      - run: yarn install --immutable
+      - run: npm test
+        env:
+          CI: true
+          TADASHI_AMQP_URL: amqp://test:test@127.0.0.1:5672,
+          TADASHI_AMQP_QUEUE: test
+
+      - name: Coveralls
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}

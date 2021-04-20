@@ -1,0 +1,64 @@
+{
+  "name": "@tadashi/winston-amqp-transport",
+  "version": "1.0.0",
+  "description": "Custom transport for Winston.",
+  "main": "src/amqp-transport.js",
+  "files": [
+    "LICENSE",
+    "README.md",
+    "src"
+  ],
+  "author": "Thiago Lagden",
+  "license": "MIT",
+  "homepage": "https://github.com/lagden/winston-amqp-transport#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/lagden/winston-amqp-transport.git"
+  },
+  "bugs": {
+    "url": "https://github.com/lagden/winston-amqp-transport/issues"
+  },
+  "keywords": [
+    "connect",
+    "redis",
+    "lib"
+  ],
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "scripts": {
+    "pretest": "xo",
+    "test": "env DEBUG=@tadashi/winston-amqp-transport:* nyc --reporter=text --reporter=lcov ava"
+  },
+  "dependencies": {
+    "@tadashi/hex-id": "2.0.0",
+    "amqplib": "0.7.1",
+    "winston-transport": "4.4.0"
+  },
+  "peerDependencies": {
+    "winston": ">= 3.3.3 < 4"
+  },
+  "devDependencies": {
+    "ava": "3.15.0",
+    "nyc": "15.1.0",
+    "winston": "3.3.3",
+    "xo": "0.38.2"
+  },
+  "xo": {
+    "envs": [
+      "node"
+    ],
+    "semicolon": false,
+    "rules": {
+      "camelcase": [
+        "error",
+        {
+          "properties": "never"
+        }
+      ],
+      "capitalized-comments": 0,
+      "unicorn/prevent-abbreviations": 0,
+      "promise/prefer-await-to-then": 0
+    }
+  }
+}
