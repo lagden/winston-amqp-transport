@@ -33,11 +33,12 @@ $ npm i -S @tadashi/winston-amqp-transport
 - TADASHI_AMQP_QUEUE
 
 
-### AmqpTransport( \[options\]):TransportStream
+### AmqpTransport( \[options\]): TransportStream
 
-Constructor
+> Type: TransportStream
 
-#### options
+
+#### options 
 
 > Type: object  
 > Default: {}
