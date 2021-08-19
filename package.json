@@ -24,6 +24,7 @@
     "transport",
     "amqp",
     "custom",
+    "logger",
     "lib"
   ],
   "engines": {
