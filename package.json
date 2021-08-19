@@ -20,8 +20,10 @@
     "url": "https://github.com/lagden/winston-amqp-transport/issues"
   },
   "keywords": [
-    "connect",
-    "redis",
+    "winston",
+    "transport",
+    "amqp",
+    "custom",
     "lib"
   ],
   "engines": {
