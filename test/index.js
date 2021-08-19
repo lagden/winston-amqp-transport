@@ -1,10 +1,10 @@
-'use strict'
+import process from 'node:process'
 
 process.env.TADASHI_AMQP_QUEUE = 'test'
 process.env.TADASHI_AMQP_URL = 'amqp://test:test@127.0.0.1:5672'
 
-const test = require('ava')
-const creator = require('./helper/logger')
+import test from 'ava'
+import creator from './helper/logger.js'
 
 function _logger(data, opts) {
 	return new Promise((resolve, reject) => {
@@ -20,7 +20,7 @@ function _logger(data, opts) {
 test.serial('logger', async t => {
 	await _logger({
 		level: 'info',
-		message: 'Apenas um show'
+		message: 'Apenas um show',
 	})
 	t.pass('ok')
 })
@@ -28,10 +28,10 @@ test.serial('logger', async t => {
 test.serial('error', async t => {
 	const error = await t.throwsAsync(_logger({
 		level: 'error',
-		message: 'Xii marquinhos'
+		message: 'Xii marquinhos',
 	}, {
 		AMQP_URL: 'amqp://127.0.0.1',
-		AMQP_QUEUE: 'xii'
+		AMQP_QUEUE: 'xii',
 	}))
 	t.snapshot(error.message)
 	t.pass('ok')

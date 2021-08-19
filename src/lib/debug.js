@@ -1,6 +1,4 @@
-'use strict'
-
-const debug = require('debug')
+import debug from 'debug'
 
 const DEBUG_PREFIX = '@tadashi/winston-amqp-transport'
 
@@ -14,8 +12,8 @@ log.color = debug.colors[colors[0]]
 info.color = debug.colors[colors[1]]
 error.color = debug.colors[colors[2]]
 
-module.exports = {
+export {
 	error,
 	info,
-	log
+	log,
 }

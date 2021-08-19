@@ -29,8 +29,9 @@ load_env() {
 }
 
 gen_env() {
-	_DIR="$(cd -P "$(dirname "$0")" && pwd)"
-	GEN_ENV="${2:-$_DIR}/gen_env"
+	_DIR="$(cd $(dirname $0) && pwd)"
+	_BIN_DIR="$(cd $DIR/.. && pwd)"
+	GEN_ENV="${2:-$_BIN_DIR}/front/gen_env"
 
 	if test -z $1; then
 		abort "Missing output"
@@ -40,7 +41,7 @@ gen_env() {
 		abort "File not found: ${GEN_ENV}"
 	fi
 
-	_DIR_FILE=$(dirname "$1")
+	_DIR_FILE=$(dirname $1)
 	mkdir -p $_DIR_FILE
 
 	$GEN_ENV > $1

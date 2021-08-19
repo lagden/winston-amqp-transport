@@ -1,8 +1,6 @@
-'use strict'
-
-const Transport = require('winston-transport')
-const dispatch = require('./lib/dispatch')
-const debug = require('./lib/debug')
+import Transport from 'winston-transport'
+import dispatch from './lib/dispatch.js'
+import * as debug from './lib/debug.js'
 
 class AmqpTransport extends Transport {
 	constructor(options = {}) {
@@ -21,9 +19,9 @@ class AmqpTransport extends Transport {
 			.catch(error => {
 				debug.error('dispatch | catch', error.message)
 				this.emit('error', error)
-				callback(error, undefined)
+				callback(error)
 			})
 	}
 }
 
-module.exports = AmqpTransport
+export default AmqpTransport

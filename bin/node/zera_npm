@@ -1,9 +1,10 @@
-#!/bin/bash
+#!/bin/sh
 
-DIR="$(cd -P "$(dirname "$0")" && pwd)"
+DIR="$(cd $(dirname $0) && pwd)"
+BIN_DIR="$(cd $DIR/.. && pwd)"
 
 # Import functions
-. $DIR/_fn
+. $BIN_DIR/helper/fn
 
 # Go to current directory
 CURR_FOLDER="$(pwd)"
@@ -16,10 +17,10 @@ rm -rf \
 	"${CURR_FOLDER}/.yarn" \
 	"${CURR_FOLDER}/.pnp.*"
 
-yarn install
+npm install
 
-test $? -ne 0 && abort "yarn failed" || ok "zerado..."
+test $? -ne 0 && abort "npm failed" || ok "zerado..."
 
-yarn npm audit
+npm audit
 
 exit 0

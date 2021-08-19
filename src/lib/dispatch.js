@@ -1,8 +1,7 @@
-'use strict'
-
-const {hostname} = require('os')
-const amqp = require('amqplib')
-const hexId = require('@tadashi/hex-id')
+import process from 'node:process'
+import {hostname} from 'node:os'
+import amqp from 'amqplib'
+import hexId from '@tadashi/hex-id'
 
 const _levels = {
 	emerg: 0,
@@ -12,13 +11,13 @@ const _levels = {
 	warning: 4,
 	notice: 5,
 	info: 6,
-	debug: 7
+	debug: 7,
 }
 
 async function dispatch(data, opts) {
 	const {
 		AMQP_URL = process.env.TADASHI_AMQP_URL,
-		AMQP_QUEUE = process.env.TADASHI_AMQP_QUEUE
+		AMQP_QUEUE = process.env.TADASHI_AMQP_QUEUE,
 	} = opts
 	const correlationId = hexId()
 
@@ -37,7 +36,7 @@ async function dispatch(data, opts) {
 		const bufData = Buffer.from(JSON.stringify(data), 'utf8')
 		await ch.sendToQueue(AMQP_QUEUE, bufData, {
 			deliveryMode: true,
-			correlationId
+			correlationId,
 		})
 		await ch.close()
 	} catch (error) {
@@ -55,4 +54,4 @@ async function dispatch(data, opts) {
 	return data
 }
 
-module.exports = dispatch
+export default dispatch
