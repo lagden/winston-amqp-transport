@@ -1,7 +1,7 @@
 import process from 'node:process'
 
 process.env.TADASHI_AMQP_QUEUE = 'test'
-process.env.TADASHI_AMQP_URL = 'amqp://test:test@127.0.0.1:5672'
+process.env.TADASHI_AMQP_URL = 'amqp://127.0.0.1:5672'
 
 import test from 'ava'
 import creator from './helper/logger.js'
@@ -30,7 +30,7 @@ test.serial('error', async t => {
 		level: 'error',
 		message: 'Xii marquinhos',
 	}, {
-		AMQP_URL: 'amqp://127.0.0.1',
+		AMQP_URL: 'amqp://test:passwd@127.0.0.1',
 		AMQP_QUEUE: 'xii',
 	}))
 	t.snapshot(error.message)
@@ -41,8 +41,5 @@ test.serial('error', async t => {
 docker run -d \
   --name rabbit_local \
   -p 5672:5672 \
-  -e RABBITMQ_ERLANG_COOKIE='secret' \
-  -e RABBITMQ_DEFAULT_USER='test' \
-  -e RABBITMQ_DEFAULT_PASS='test' \
-  rabbitmq:3.8-alpine
+  rabbitmq:3.9-alpine
 */

@@ -6,8 +6,8 @@
 
 [npm-img]:         https://img.shields.io/npm/v/@tadashi/winston-amqp-transport.svg
 [npm]:             https://www.npmjs.com/package/@tadashi/winston-amqp-transport
-[ci-img]:          https://github.com/lagden/winston-amqp-transport/workflows/Node.js%20CI/badge.svg
-[ci]:              https://github.com/lagden/winston-amqp-transport/actions?query=workflow%3A%22Node.js+CI%22
+[ci-img]:          https://github.com/lagden/winston-amqp-transport/actions/workflows/nodejs.yml/badge.svg
+[ci]:              https://github.com/lagden/winston-amqp-transport/actions/workflows/nodejs.yml
 [coveralls-img]:   https://coveralls.io/repos/github/lagden/winston-amqp-transport/badge.svg?branch=main
 [coveralls]:       https://coveralls.io/github/lagden/winston-amqp-transport?branch=main
 
@@ -62,10 +62,15 @@ const opts = {
   exitOnError: false,
 }
 
-const logger = createLogger({...opts, transports: [new AmqpTransport({
-  AMQP_URL: 'amqp://test:test@127.0.0.1:5672',
-  AMQP_QUEUE: 'graylog'
-})]})
+const logger = createLogger({
+  ...opts,
+  transports: [
+    new AmqpTransport({
+      AMQP_URL: 'amqp://127.0.0.1:5672',
+      AMQP_QUEUE: 'graylog'
+    })
+  ]
+})
 
 logger.log({
   level: 'info',

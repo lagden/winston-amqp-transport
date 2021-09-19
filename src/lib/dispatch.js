@@ -1,5 +1,5 @@
-import process from 'node:process'
 import {hostname} from 'node:os'
+import process from 'node:process'
 import amqp from 'amqplib'
 import hexId from '@tadashi/hex-id'
 
@@ -14,10 +14,15 @@ const _levels = {
 	debug: 7,
 }
 
+const {
+	TADASHI_AMQP_URL,
+	TADASHI_AMQP_QUEUE,
+} = process.env
+
 async function dispatch(data, opts) {
 	const {
-		AMQP_URL = process.env.TADASHI_AMQP_URL,
-		AMQP_QUEUE = process.env.TADASHI_AMQP_QUEUE,
+		AMQP_URL = TADASHI_AMQP_URL,
+		AMQP_QUEUE = TADASHI_AMQP_QUEUE,
 	} = opts
 	const correlationId = hexId()
 
