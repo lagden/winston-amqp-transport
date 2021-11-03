@@ -1,7 +1,10 @@
 import {hostname} from 'node:os'
 import process from 'node:process'
-import amqp from 'amqplib'
 import hexId from '@tadashi/hex-id'
+
+const {
+	TADASHI_AMQP_QUEUE,
+} = process.env
 
 const _levels = {
 	emerg: 0,
@@ -14,23 +17,18 @@ const _levels = {
 	debug: 7,
 }
 
-const {
-	TADASHI_AMQP_URL,
-	TADASHI_AMQP_QUEUE,
-} = process.env
-
-async function dispatch(data, opts) {
+async function dispatch(data, opts, pool) {
 	const {
-		AMQP_URL = TADASHI_AMQP_URL,
 		AMQP_QUEUE = TADASHI_AMQP_QUEUE,
 	} = opts
+
 	const correlationId = hexId()
 
 	let _error
 	let conn
 
 	try {
-		conn = await amqp.connect(AMQP_URL)
+		conn = await pool.acquire()
 		const ch = await conn.createChannel()
 		await ch.assertQueue(AMQP_QUEUE, {durable: true})
 
@@ -48,7 +46,7 @@ async function dispatch(data, opts) {
 		_error = error
 	} finally {
 		if (conn) {
-			conn.close()
+			pool.release(conn)
 		}
 	}
 
