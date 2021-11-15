@@ -1,6 +1,5 @@
 import test from 'ava'
 import creator from './helper/logger.js'
-import createPool from '../src/lib/db.js'
 
 function _logger(data, opts) {
 	return new Promise((resolve, reject) => {
@@ -15,20 +14,15 @@ function _logger(data, opts) {
 
 test.serial('logger', async t => {
 	await _logger({
-		level: 'info',
 		message: 'Apenas um show 1',
 	})
 	await _logger({
-		level: 'info',
+		level: 'bizarre',
 		message: 'Apenas um show 2',
 	})
 	await _logger({
 		level: 'info',
 		message: 'Apenas um show 3',
-	})
-	await _logger({
-		level: 'info',
-		message: 'Apenas um show 4',
 	})
 	t.pass('ok')
 })
@@ -42,13 +36,6 @@ test.serial('error', async t => {
 		AMQP_QUEUE: 'xii',
 	}))
 	t.snapshot(error.message)
-	t.pass('ok')
-})
-
-test.serial('pool', async t => {
-	const pool = createPool()
-	const conn = await pool.acquire()
-	pool.destroy(conn)
 	t.pass('ok')
 })
 

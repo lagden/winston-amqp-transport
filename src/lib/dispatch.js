@@ -1,40 +1,33 @@
 import {hostname} from 'node:os'
 import process from 'node:process'
+import amqp from 'amqplib'
 import hexId from '@tadashi/hex-id'
+import levels from './level.js'
 
 const {
-	TADASHI_AMQP_QUEUE,
+	TADASHI_AMQP_URL = 'amqp://127.0.0.1:5672',
+	TADASHI_AMQP_QUEUE = 'amqp_log',
 } = process.env
 
-const _levels = {
-	emerg: 0,
-	alert: 1,
-	crit: 2,
-	error: 3,
-	warning: 4,
-	notice: 5,
-	info: 6,
-	debug: 7,
-}
-
-async function dispatch(data, opts, pool) {
+async function dispatch(data, opts) {
 	const {
+		AMQP_URL = TADASHI_AMQP_URL,
 		AMQP_QUEUE = TADASHI_AMQP_QUEUE,
+		AMQP_LEVELS = levels,
 	} = opts
 
 	const correlationId = hexId()
-
-	let _error
+	let error
 	let conn
 
 	try {
-		conn = await pool.acquire()
+		conn = await amqp.connect(AMQP_URL)
 		const ch = await conn.createChannel()
 		await ch.assertQueue(AMQP_QUEUE, {durable: true})
 
 		data.correlationId = correlationId
 		data.hostname = hostname()
-		data.level = _levels?.[data.level]
+		data.level = AMQP_LEVELS?.[data.level]
 
 		const bufData = Buffer.from(JSON.stringify(data), 'utf8')
 		await ch.sendToQueue(AMQP_QUEUE, bufData, {
@@ -42,16 +35,16 @@ async function dispatch(data, opts, pool) {
 			correlationId,
 		})
 		await ch.close()
-	} catch (error) {
-		_error = error
+	} catch (error_) {
+		error = error_
 	} finally {
 		if (conn) {
-			pool.release(conn)
+			conn.close()
 		}
 	}
 
-	if (_error) {
-		throw _error
+	if (error) {
+		throw error
 	}
 
 	return data
